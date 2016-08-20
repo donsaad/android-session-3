@@ -1,8 +1,9 @@
 package io.donsaad.session3;
 
-import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -10,7 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
 
     private List<String> listValues;
     @Override
@@ -18,12 +19,15 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ListView listView = (ListView) findViewById(R.id.lv_names);
+
         listValues = new ArrayList<>();
         listValues.add("The Rock");
         listValues.add("Manchester United");
         listValues.add("ROONEY");
         listValues.add("Cantona");
         listValues.add("#POGBACK");
+        listValues.add("#ZlatanTime");
         listValues.add("Android");
         listValues.add("Lollipop");
         listValues.add("Ice Cream Sandwich");
@@ -31,19 +35,14 @@ public class MainActivity extends ListActivity {
         listValues.add("Froyo");
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, listValues);
-
-        setListAdapter(myAdapter);
-
+                R.layout.list_item_name, listValues);
+        listView.setAdapter(myAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "You clicked: " + listValues.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        if(position == 0)
-            Toast.makeText(this, "You can't click THE ROCK!",Toast.LENGTH_SHORT).show();
-        else
-        Toast.makeText(this, "You clicked: " + listValues.get(position),Toast.LENGTH_SHORT).show();
-
-    }
 }
